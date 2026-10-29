@@ -1,0 +1,13 @@
+{
+  "nome": "Velocidade 25s e 50s",
+  "piscina_m": 25,
+  "blocos": [
+    {"tipo": "aquecimento", "m": 300, "nado": "crawl", "nota": "Solto"},
+    {"tipo": "aquecimento", "m": 50, "nado": "educativo", "repetir": 4, "descanso_s": 20, "nota": "Educativo à escolha (ex.: braço estendido, toque no ombro)"},
+    {"m": 25, "nado": "crawl", "repetir": 12, "descanso_s": 40, "nota": "FORTE de verdade. Mantenha 13 braçadas ou menos."},
+    {"m": 200, "nado": "crawl", "equip": "pullbuoy", "descanso_s": 30, "nota": "Solto com pull buoy, recupere"},
+    {"m": 50, "nado": "crawl", "repetir": 8, "descanso_s": 30, "nota": "Alvo: 56 s por 50 (1:52/100 m)"},
+    {"m": 100, "nado": "crawl", "repetir": 4, "descanso_s": 20, "nota": "Ritmo confortável"},
+    {"tipo": "desaquecimento", "m": 200, "nado": "livre", "nota": "Bem solto"}
+  ]
+}
