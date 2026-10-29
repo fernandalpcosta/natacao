@@ -1,6 +1,6 @@
 """Gera arquivos .FIT de treino de natação a partir das definições em treinos/*.json.
 
-Uso: python treinos/gerar.py   (grava em treinos/fit/)
+Uso: python treinos/gerar.py   (grava em docs/treinos/, publicado no GitHub Pages)
 Para levar ao relógio: conecte por USB e copie o .fit para GARMIN/NewFiles.
 """
 import datetime
@@ -17,6 +17,7 @@ from fit_tool.profile.profile_type import (
 )
 
 DIR = pathlib.Path(__file__).resolve().parent
+OUT = DIR.parent / "docs" / "treinos"
 NADO = {"crawl": SwimStroke.FREESTYLE, "costas": SwimStroke.BACKSTROKE, "peito": SwimStroke.BREASTSTROKE,
         "borboleta": SwimStroke.BUTTERFLY, "educativo": SwimStroke.DRILL, "medley": SwimStroke.IM}
 EQUIP = {"nadadeira": WorkoutEquipment.SWIM_FINS, "prancha": WorkoutEquipment.SWIM_KICKBOARD,
@@ -104,11 +105,14 @@ def total_m(blocos):
 
 
 def main():
-    (DIR / "fit").mkdir(exist_ok=True)
+    OUT.mkdir(parents=True, exist_ok=True)
+    indice = []
     for f in sorted(DIR.glob("*.json")):
         defin = json.loads(f.read_text())
-        gerar(defin).to_file(str(DIR / "fit" / f"{f.stem}.fit"))
+        gerar(defin).to_file(str(OUT / f"{f.stem}.fit"))
+        indice.append({**defin, "arquivo": f"{f.stem}.fit", "total_m": total_m(defin["blocos"])})
         print(f"{f.stem}.fit  {defin['nome']}  {total_m(defin['blocos'])} m")
+    (OUT / "index.json").write_text(json.dumps(indice, ensure_ascii=False, indent=1))
 
 
 if __name__ == "__main__":

@@ -1,14 +1,50 @@
 {
   "nome": "Teste CSS 400+200",
+  "objetivo": "Descobrir seu ritmo de limiar (CSS), que vira a referência dos treinos fortes. Repita a cada 6 a 8 semanas.",
   "piscina_m": 25,
   "blocos": [
-    {"tipo": "aquecimento", "m": 300, "nado": "crawl", "nota": "Solto, braçada longa"},
-    {"tipo": "aquecimento", "m": 50, "nado": "crawl", "repetir": 4, "descanso_s": 20, "nota": "Progressivo: cada 50 um pouco mais rápido"},
-    {"tipo": "aquecimento", "m": 100, "nado": "livre", "descanso_s": 60, "nota": "Bem solto"},
-    {"m": 400, "nado": "crawl", "nota": "TESTE: o mais rápido que conseguir manter os 400 m. Anote o tempo."},
-    {"descanso_s": 300},
-    {"m": 200, "nado": "crawl", "nota": "TESTE: o mais rápido que conseguir nos 200 m. Anote o tempo."},
-    {"descanso_s": 60},
-    {"tipo": "desaquecimento", "m": 200, "nado": "livre", "nota": "Bem solto, misture nados"}
+    {
+      "tipo": "aquecimento",
+      "m": 300,
+      "nado": "crawl",
+      "nota": "Solto, braçada longa"
+    },
+    {
+      "tipo": "aquecimento",
+      "m": 50,
+      "nado": "crawl",
+      "repetir": 4,
+      "descanso_s": 20,
+      "nota": "Progressivo: cada 50 um pouco mais rápido"
+    },
+    {
+      "tipo": "aquecimento",
+      "m": 100,
+      "nado": "livre",
+      "descanso_s": 60,
+      "nota": "Bem solto"
+    },
+    {
+      "m": 400,
+      "nado": "crawl",
+      "nota": "TESTE: o mais rápido que conseguir manter os 400 m. Anote o tempo."
+    },
+    {
+      "descanso_s": 300
+    },
+    {
+      "m": 200,
+      "nado": "crawl",
+      "nota": "TESTE: o mais rápido que conseguir nos 200 m. Anote o tempo."
+    },
+    {
+      "descanso_s": 60
+    },
+    {
+      "tipo": "desaquecimento",
+      "m": 200,
+      "nado": "livre",
+      "nota": "Bem solto, misture nados"
+    }
   ]
 }

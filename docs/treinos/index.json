@@ -1,0 +1,187 @@
+[
+ {
+  "nome": "Teste CSS 400+200",
+  "objetivo": "Descobrir seu ritmo de limiar (CSS), que vira a referência dos treinos fortes. Repita a cada 6 a 8 semanas.",
+  "piscina_m": 25,
+  "blocos": [
+   {
+    "tipo": "aquecimento",
+    "m": 300,
+    "nado": "crawl",
+    "nota": "Solto, braçada longa"
+   },
+   {
+    "tipo": "aquecimento",
+    "m": 50,
+    "nado": "crawl",
+    "repetir": 4,
+    "descanso_s": 20,
+    "nota": "Progressivo: cada 50 um pouco mais rápido"
+   },
+   {
+    "tipo": "aquecimento",
+    "m": 100,
+    "nado": "livre",
+    "descanso_s": 60,
+    "nota": "Bem solto"
+   },
+   {
+    "m": 400,
+    "nado": "crawl",
+    "nota": "TESTE: o mais rápido que conseguir manter os 400 m. Anote o tempo."
+   },
+   {
+    "descanso_s": 300
+   },
+   {
+    "m": 200,
+    "nado": "crawl",
+    "nota": "TESTE: o mais rápido que conseguir nos 200 m. Anote o tempo."
+   },
+   {
+    "descanso_s": 60
+   },
+   {
+    "tipo": "desaquecimento",
+    "m": 200,
+    "nado": "livre",
+    "nota": "Bem solto, misture nados"
+   }
+  ],
+  "arquivo": "1-teste-css.fit",
+  "total_m": 1400
+ },
+ {
+  "nome": "Velocidade 25s e 50s",
+  "objetivo": "Recuperar as piscinas rápidas: tiros curtos e fortes, com descanso longo, sem deixar a braçada encurtar.",
+  "piscina_m": 25,
+  "blocos": [
+   {
+    "tipo": "aquecimento",
+    "m": 300,
+    "nado": "crawl",
+    "nota": "Solto"
+   },
+   {
+    "tipo": "aquecimento",
+    "m": 50,
+    "nado": "educativo",
+    "repetir": 4,
+    "descanso_s": 20,
+    "nota": "Educativo à escolha (ex.: braço estendido, toque no ombro)"
+   },
+   {
+    "m": 25,
+    "nado": "crawl",
+    "repetir": 12,
+    "descanso_s": 40,
+    "nota": "FORTE de verdade. Mantenha 13 braçadas ou menos."
+   },
+   {
+    "m": 200,
+    "nado": "crawl",
+    "equip": "pullbuoy",
+    "descanso_s": 30,
+    "nota": "Solto com pull buoy, recupere"
+   },
+   {
+    "m": 50,
+    "nado": "crawl",
+    "repetir": 8,
+    "descanso_s": 30,
+    "nota": "Alvo: 56 s por 50 (1:52/100 m)"
+   },
+   {
+    "m": 100,
+    "nado": "crawl",
+    "repetir": 4,
+    "descanso_s": 20,
+    "nota": "Ritmo confortável"
+   },
+   {
+    "tipo": "desaquecimento",
+    "m": 200,
+    "nado": "livre",
+    "nota": "Bem solto"
+   }
+  ],
+  "arquivo": "2-velocidade.fit",
+  "total_m": 2000
+ },
+ {
+  "nome": "Limiar 3x4x100",
+  "objetivo": "Melhorar o ritmo típico do crawl com séries no ritmo CSS e pouco descanso.",
+  "piscina_m": 25,
+  "blocos": [
+   {
+    "tipo": "aquecimento",
+    "m": 200,
+    "nado": "crawl",
+    "nota": "Solto"
+   },
+   {
+    "tipo": "aquecimento",
+    "m": 100,
+    "nado": "costas"
+   },
+   {
+    "tipo": "aquecimento",
+    "m": 100,
+    "nado": "peito",
+    "descanso_s": 30
+   },
+   {
+    "tipo": "aquecimento",
+    "m": 50,
+    "nado": "educativo",
+    "repetir": 4,
+    "descanso_s": 20
+   },
+   {
+    "m": 100,
+    "nado": "crawl",
+    "repetir": 4,
+    "descanso_s": 15,
+    "nota": "Ritmo CSS: forte e constante (por enquanto ~2:00/100 m)"
+   },
+   {
+    "descanso_s": 60
+   },
+   {
+    "m": 100,
+    "nado": "crawl",
+    "repetir": 4,
+    "descanso_s": 15,
+    "nota": "Ritmo CSS: igual à série anterior"
+   },
+   {
+    "descanso_s": 60
+   },
+   {
+    "m": 100,
+    "nado": "crawl",
+    "repetir": 4,
+    "descanso_s": 15,
+    "nota": "Ritmo CSS: segure o tempo até o fim"
+   },
+   {
+    "descanso_s": 60
+   },
+   {
+    "m": 25,
+    "nado": "crawl",
+    "repetir": 4,
+    "descanso_s": 30,
+    "nota": "Jogo do SWOLF: tempo + braçadas abaixo de 43"
+   },
+   {
+    "tipo": "desaquecimento",
+    "m": 200,
+    "nado": "livre",
+    "nota": "Bem solto"
+   }
+  ],
+  "arquivo": "3-limiar.fit",
+  "total_m": 2100
+ }
+]

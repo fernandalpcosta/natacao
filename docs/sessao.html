@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Detalhe da Natação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilo.css">
+<style>
+.navega { display: flex; justify-content: space-between; gap: 8px; margin: 16px 0; font-size: 14px; }
+.navega a { text-decoration: none; }
+.navega a[aria-disabled="true"] { visibility: hidden; }
+.legend i.box { width: 10px; height: 10px; border-radius: 2px; }
+#t-series th:nth-child(2), #t-series td:nth-child(2) { text-align: left; }
+#t-series td:last-child { color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <nav class="site-nav"><a href="./">Painel</a><a href="treinos.html">Treinos</a></nav>
+  <header>
+    <h1 id="titulo">Natação</h1>
+    <p id="resumo">Carregando…</p>
+  </header>
+
+  <div class="navega"><a id="anterior" href="#">← Anterior</a><a id="proxima" href="#">Próxima →</a></div>
+
+  <section class="tiles" id="tiles"></section>
+
+  <section class="card" id="card-piscinas" style="margin-top:12px">
+    <h2>Tempo por piscina</h2>
+    <p class="sub">Cada barra é uma piscina, na ordem em que você nadou. Passe o dedo ou o mouse para ver braçadas e SWOLF.</p>
+    <div class="legend" id="leg-nados"></div>
+    <div class="chart" id="c-piscinas"></div>
+  </section>
+
+  <section class="card" style="margin-top:12px">
+    <h2>Séries</h2>
+    <p class="sub">Cada volta registrada no relógio (botão de volta ou passo do treino).</p>
+    <div class="tablewrap"><table id="t-series"></table></div>
+  </section>
+
+  <footer>Sem GPS e sem frequência cardíaca.</footer>
+</main>
+
+<script src="comum.js"></script>
+<script>
+const COR_NADO = { freestyle: "--s1", drill: "--s2", backstroke: "--s3", breaststroke: "--s4", butterfly: "--s5" };
+const corNado = n => css(COR_NADO[n] || "--muted");
+const nomeNado = n => NADOS[n] || n || "–";
+
+function tiles(r, d) {
+  const box = document.getElementById("tiles");
+  const lista = [
+    ["Distância", `${Math.round(r.distancia_m).toLocaleString("pt-BR")} m`, `${r.piscinas || "–"} piscinas`],
+    ["Tempo nadando", mmss(r.tempo_nadando_s), "sem contar as pausas"],
+    ["Ritmo médio", `${mmss(r.ritmo_100m_s)}/100m`, r.livre_ritmo_100m_s ? `crawl típico ${mmss(r.livre_ritmo_100m_s)}` : "todos os nados"],
+    ["SWOLF no crawl", num(r.livre_swolf_25m), r.livre_bracadas_25m ? `${num(r.livre_bracadas_25m)} braçadas por piscina` : "piscina de 25 m"],
+    ["Efeito aeróbico", num(d.efeito_aerobico), d.efeito_anaerobico != null ? `anaeróbico ${num(d.efeito_anaerobico)}` : ""],
+  ];
+  box.replaceChildren(...lista.map(([a, b, c]) => tile(a, b, c)));
+}
+
+function grafico(d) {
+  const P = d.piscinas || [];
+  if (!P.length) { document.getElementById("card-piscinas").hidden = true; return; }
+  const nados = [...new Set(P.map(p => p.nado))];
+  const leg = document.getElementById("leg-nados"); leg.replaceChildren();
+  for (const n of nados) {
+    const s = document.createElement("span"); const i = document.createElement("i"); i.className = "box"; i.style.background = corNado(n);
+    s.append(i, document.createTextNode(nomeNado(n))); leg.appendChild(s);
+  }
+  barChart(document.getElementById("c-piscinas"), P.map((_, i) => String(i + 1)), P.map(p => p.s), v => `${Math.round(v)} s`,
+    l => l,
+    i => [
+      { color: corNado(P[i].nado), value: `${num(P[i].s)} s`, label: nomeNado(P[i].nado) },
+      { value: P[i].brac ? String(P[i].brac) : "–", label: "braçadas" },
+      { value: P[i].brac ? num(P[i].s + P[i].brac) : "–", label: "SWOLF" },
+    ],
+    i => corNado(P[i].nado),
+    l => `Piscina ${l}`);
+}
+
+function series(d) {
+  const P = d.piscinas || [], pool = d.piscina_m;
+  let idx = 0, n = 0;
+  const rows = [];
+  for (const s of d.series || []) {
+    if (s.descanso) {
+      // A pausa entra na linha da série anterior.
+      if (rows.length) rows[rows.length - 1].pausa += s.s;
+      continue;
+    }
+    const L = P.slice(idx, idx + (s.piscinas || 0)); idx += s.piscinas || 0;
+    if (s.m && s.s < 5) continue;  // voltas apertadas por engano
+    const comBrac = L.filter(l => l.brac);
+    const brac = comBrac.length ? comBrac.reduce((a, l) => a + l.brac, 0) / comBrac.length : null;
+    const swolf = comBrac.length && pool === 25 ? comBrac.reduce((a, l) => a + l.s + l.brac, 0) / comBrac.length : null;
+    rows.push({ pausa: 0, cells: [String(++n), nomeNado(s.nado), `${Math.round(s.m)} m`, mmss(s.s), s.m ? mmss(s.s / s.m * 100) : "–", brac != null ? num(brac) : "–", swolf != null ? num(swolf) : "–"] });
+  }
+  const t = document.getElementById("t-series");
+  table(t, ["#", "Nado", "Distância", "Tempo", "Ritmo/100m", "Braçadas", "SWOLF", "Pausa depois"], rows.map(r => [...r.cells, r.pausa >= 1 ? mmss(r.pausa) : "–"]));
+}
+
+const id = new URLSearchParams(location.search).get("id");
+Promise.all([fetch("data/metricas.json").then(r => r.json()), fetch(`data/swims/${encodeURIComponent(id)}.json`).then(r => r.ok ? r.json() : {})]).then(([dados, d]) => {
+  dados.sort((a, b) => b.data.localeCompare(a.data) || b.id - a.id);
+  const i = dados.findIndex(r => String(r.id) === id);
+  if (i < 0) { document.getElementById("resumo").textContent = "Natação não encontrada."; return; }
+  const r = dados[i];
+  const tipo = r.tipo === "open_water_swimming" ? "Águas abertas" : `Piscina de ${d.piscina_m || 25} m`;
+  document.getElementById("titulo").textContent = dataBR(r.data);
+  document.getElementById("resumo").textContent = [tipo, r.treino].filter(Boolean).join(" · ");
+  document.title = `Natação ${dataBR(r.data)}`;
+  const nav = (el, j) => { if (dados[j]) el.href = `sessao.html?id=${dados[j].id}`; else el.setAttribute("aria-disabled", "true"); };
+  nav(document.getElementById("anterior"), i + 1);
+  nav(document.getElementById("proxima"), i - 1);
+  tiles(r, d);
+  grafico(d);
+  series(d);
+});
+</script>
+</body>
+</html>

@@ -1,18 +1,74 @@
 {
   "nome": "Limiar 3x4x100",
+  "objetivo": "Melhorar o ritmo típico do crawl com séries no ritmo CSS e pouco descanso.",
   "piscina_m": 25,
   "blocos": [
-    {"tipo": "aquecimento", "m": 200, "nado": "crawl", "nota": "Solto"},
-    {"tipo": "aquecimento", "m": 100, "nado": "costas"},
-    {"tipo": "aquecimento", "m": 100, "nado": "peito", "descanso_s": 30},
-    {"tipo": "aquecimento", "m": 50, "nado": "educativo", "repetir": 4, "descanso_s": 20},
-    {"m": 100, "nado": "crawl", "repetir": 4, "descanso_s": 15, "nota": "Ritmo CSS: forte e constante (por enquanto ~2:00/100 m)"},
-    {"descanso_s": 60},
-    {"m": 100, "nado": "crawl", "repetir": 4, "descanso_s": 15, "nota": "Ritmo CSS: igual à série anterior"},
-    {"descanso_s": 60},
-    {"m": 100, "nado": "crawl", "repetir": 4, "descanso_s": 15, "nota": "Ritmo CSS: segure o tempo até o fim"},
-    {"descanso_s": 60},
-    {"m": 25, "nado": "crawl", "repetir": 4, "descanso_s": 30, "nota": "Jogo do SWOLF: tempo + braçadas abaixo de 43"},
-    {"tipo": "desaquecimento", "m": 200, "nado": "livre", "nota": "Bem solto"}
+    {
+      "tipo": "aquecimento",
+      "m": 200,
+      "nado": "crawl",
+      "nota": "Solto"
+    },
+    {
+      "tipo": "aquecimento",
+      "m": 100,
+      "nado": "costas"
+    },
+    {
+      "tipo": "aquecimento",
+      "m": 100,
+      "nado": "peito",
+      "descanso_s": 30
+    },
+    {
+      "tipo": "aquecimento",
+      "m": 50,
+      "nado": "educativo",
+      "repetir": 4,
+      "descanso_s": 20
+    },
+    {
+      "m": 100,
+      "nado": "crawl",
+      "repetir": 4,
+      "descanso_s": 15,
+      "nota": "Ritmo CSS: forte e constante (por enquanto ~2:00/100 m)"
+    },
+    {
+      "descanso_s": 60
+    },
+    {
+      "m": 100,
+      "nado": "crawl",
+      "repetir": 4,
+      "descanso_s": 15,
+      "nota": "Ritmo CSS: igual à série anterior"
+    },
+    {
+      "descanso_s": 60
+    },
+    {
+      "m": 100,
+      "nado": "crawl",
+      "repetir": 4,
+      "descanso_s": 15,
+      "nota": "Ritmo CSS: segure o tempo até o fim"
+    },
+    {
+      "descanso_s": 60
+    },
+    {
+      "m": 25,
+      "nado": "crawl",
+      "repetir": 4,
+      "descanso_s": 30,
+      "nota": "Jogo do SWOLF: tempo + braçadas abaixo de 43"
+    },
+    {
+      "tipo": "desaquecimento",
+      "m": 200,
+      "nado": "livre",
+      "nota": "Bem solto"
+    }
   ]
 }

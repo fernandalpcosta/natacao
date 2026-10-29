@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Treinos de Natação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilo.css">
+<style>
+.treinos { display: grid; gap: 12px; margin-top: 16px; }
+.treino-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; flex-wrap: wrap; }
+.treino-head h2 { font-size: 20px; }
+.meta { color: var(--text-2); font-size: 14px; margin-top: 2px; font-variant-numeric: tabular-nums; }
+.objetivo { color: var(--text-2); margin: 8px 0 12px; }
+.baixar {
+  display: inline-flex; align-items: center; gap: 6px; background: var(--text); color: var(--surface);
+  text-decoration: none; padding: 8px 14px; border-radius: 999px; font-size: 14px; font-weight: 500; white-space: nowrap;
+}
+.perfil { display: flex; gap: 2px; height: 10px; margin: 4px 0 4px; }
+.perfil span { border-radius: 2px; }
+.perfil-legenda { display: flex; gap: 14px; font-size: 12px; color: var(--muted); margin-bottom: 8px; flex-wrap: wrap; }
+.perfil-legenda i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+.fase { margin-top: 14px; }
+.fase h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 6px; font-weight: 600; }
+.passo { display: grid; grid-template-columns: 110px 1fr; gap: 4px 12px; padding: 8px 0; border-top: 1px solid var(--grid); }
+.passo .qtd { font-weight: 600; font-variant-numeric: tabular-nums; }
+.passo .det { color: var(--text-2); }
+.passo .nota { grid-column: 2; color: var(--text); font-size: 14px; }
+.tag { display: inline-block; font-size: 12px; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--border); color: var(--text-2); margin-left: 6px; }
+.passo.pausa .qtd, .passo.pausa .det { color: var(--muted); font-weight: 400; }
+.como ol { margin: 8px 0 0; padding-left: 20px; color: var(--text-2); }
+@media (max-width: 480px) { .passo { grid-template-columns: 84px 1fr; } }
+</style>
+</head>
+<body>
+<main>
+  <nav class="site-nav"><a href="./">Painel</a><a href="treinos.html" aria-current="page">Treinos</a></nav>
+  <header>
+    <h1>Treinos</h1>
+    <p id="resumo">Carregando…</p>
+  </header>
+
+  <section class="treinos" id="lista"></section>
+
+  <section class="card como" style="margin-top:12px">
+    <h2>Como levar o treino para o relógio</h2>
+    <ol>
+      <li>Baixe o arquivo .fit do treino no computador.</li>
+      <li>Conecte o relógio pelo cabo USB e copie o arquivo para a pasta <code>GARMIN/NewFiles</code>.</li>
+      <li>Desconecte. O treino aparece em <strong>Natação em piscina → Treinos</strong>.</li>
+    </ol>
+  </section>
+
+  <footer>Os treinos são definidos em <code>treinos/*.json</code> no repositório. O tempo estimado usa o seu ritmo típico das últimas 8 semanas.</footer>
+</main>
+
+<script src="comum.js"></script>
+<script>
+const NADO_PT = { crawl: "crawl", costas: "costas", peito: "peito", borboleta: "borboleta", educativo: "educativo", medley: "medley", livre: "livre" };
+const EQUIP_PT = { nadadeira: "nadadeira", prancha: "prancha", palmar: "palmar", pullbuoy: "pull buoy", snorkel: "snorkel" };
+const FASES = { aquecimento: "Aquecimento", principal: "Principal", desaquecimento: "Desaquecimento" };
+const COR_FASE = { aquecimento: "#86b6ef", principal: null, desaquecimento: "#86b6ef" };
+
+const node = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+
+function duracao(blocos, ritmo) {
+  let s = 0;
+  for (const b of blocos) {
+    const n = b.repetir || 1;
+    if (b.m) s += b.m * n * ritmo / 100;
+    s += (b.descanso_s || 0) * n;
+  }
+  return s;
+}
+
+function passo(b) {
+  const p = node("div", "passo" + (b.m ? "" : " pausa"));
+  if (!b.m) {
+    p.append(node("span", "qtd", "Pausa"), node("span", "det", b.descanso_s ? `${b.descanso_s >= 60 ? mmss(b.descanso_s) + " min" : b.descanso_s + " s"} parado` : "até apertar o botão"));
+    return p;
+  }
+  const n = b.repetir || 1;
+  p.appendChild(node("span", "qtd", n > 1 ? `${n} × ${b.m} m` : `${b.m} m`));
+  const det = node("span", "det", NADO_PT[b.nado || "livre"] + (b.descanso_s ? ` · descanso ${b.descanso_s} s` : ""));
+  if (b.equip) det.appendChild(node("span", "tag", EQUIP_PT[b.equip] || b.equip));
+  p.appendChild(det);
+  if (b.nota) p.appendChild(node("span", "nota", b.nota));
+  return p;
+}
+
+function cartao(t, ritmo) {
+  const c = node("article", "card");
+  const head = node("div", "treino-head");
+  const tit = node("div");
+  tit.append(node("h2", null, t.nome), node("div", "meta", `${t.total_m.toLocaleString("pt-BR")} m · ≈ ${Math.round(duracao(t.blocos, ritmo) / 60)} min · piscina de ${t.piscina_m || 25} m`));
+  const a = node("a", "baixar", "Baixar .fit"); a.href = `treinos/${t.arquivo}`; a.download = t.arquivo;
+  head.append(tit, a);
+  c.appendChild(head);
+  if (t.objetivo) c.appendChild(node("p", "objetivo", t.objetivo));
+
+  // Perfil: cada bloco de nado proporcional à distância, cor por fase.
+  const perfil = node("div", "perfil");
+  for (const b of t.blocos) {
+    if (!b.m) continue;
+    const s = node("span"); s.style.flex = String(b.m * (b.repetir || 1));
+    s.style.background = COR_FASE[b.tipo || "principal"] || css("--s1");
+    s.title = `${b.repetir > 1 ? b.repetir + " × " : ""}${b.m} m`;
+    perfil.appendChild(s);
+  }
+  c.appendChild(perfil);
+  const leg = node("div", "perfil-legenda");
+  for (const [nome, cor] of [["Aquecimento e desaquecimento", COR_FASE.aquecimento], ["Parte principal", css("--s1")]]) {
+    const s = node("span"); const i = node("i"); i.style.background = cor; s.append(i, document.createTextNode(nome)); leg.appendChild(s);
+  }
+  c.appendChild(leg);
+
+  // Na ordem do treino; uma pausa fica na fase em que aparece.
+  let sec = null, faseAtual = null;
+  for (const b of t.blocos) {
+    const fase = b.m ? (b.tipo || "principal") : faseAtual;
+    if (fase !== faseAtual || !sec) {
+      faseAtual = fase;
+      sec = node("div", "fase");
+      sec.appendChild(node("h3", null, FASES[fase] || "Principal"));
+      c.appendChild(sec);
+    }
+    sec.appendChild(passo(b));
+  }
+  return c;
+}
+
+Promise.all([fetch("treinos/index.json").then(r => r.json()), fetch("data/metricas.json").then(r => r.json())]).then(([treinos, dados]) => {
+  const hoje = new Date();
+  const recentes = dados.filter(r => (hoje - dt(r)) / 864e5 <= 56);
+  const ritmo = median(recentes.map(r => r.livre_ritmo_100m_s)) || median(dados.map(r => r.livre_ritmo_100m_s)) || 125;
+  document.getElementById("resumo").textContent = `${treinos.length} treinos · estimativas com ritmo típico de ${mmss(ritmo)}/100 m`;
+  const lista = document.getElementById("lista");
+  treinos.forEach(t => lista.appendChild(cartao(t, ritmo)));
+});
+</script>
+</body>
+</html>
