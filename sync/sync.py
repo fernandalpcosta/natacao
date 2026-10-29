@@ -59,4 +59,12 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import os
+    import urllib.error
+    try:
+        main()
+    except urllib.error.HTTPError as e:
+        # ::error:: aparece como aviso no resumo da execução no GitHub.
+        chave = "presente" if os.environ.get("GARMIN_PERSONAL_API_KEY") else "AUSENTE"
+        print(f"::error::Garmin respondeu HTTP {e.code} em {e.url.split('?')[0]} (chave {chave})")
+        sys.exit(1)
