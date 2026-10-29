@@ -20,7 +20,16 @@ Acompanhamento das minhas natações com dados do Garmin: ritmo, SWOLF, braçada
 A chave pessoal vale 30 dias. Ao renovar em connect.garmin.com → Settings → Personal API Key, atualize o segredo
 `GARMIN_PERSONAL_API_KEY` em **Settings → Secrets and variables → Actions** deste repositório.
 
-## Levar um treino para o relógio
+## Enviar um treino ao relógio pelo celular (Bluetooth)
+
+1. Uma única vez: crie os segredos `GARMIN_EMAIL` e `GARMIN_PASSWORD` em **Settings → Secrets and variables → Actions**.
+2. Em **Actions → Enviar treino ao Garmin → Run workflow**, escolha o treino e o dia (AAAA-MM-DD).
+3. O treino entra na sua conta e no calendário do Garmin Connect; o app do celular passa para o relógio na próxima sincronização.
+
+Usa a biblioteca não oficial `garminconnect`. Se a conta tiver verificação em duas etapas, o envio automático não funciona.
+Ao criar um treino novo em `treinos/`, acrescente o nome dele na lista `options` de `.github/workflows/enviar-treino.yml`.
+
+## Levar um treino para o relógio pelo cabo USB
 
 1. Conecte o relógio ao computador pelo cabo USB.
 2. Baixe o .fit na página Treinos e copie para a pasta `GARMIN/NewFiles` do relógio.
