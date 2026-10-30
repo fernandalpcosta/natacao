@@ -6,6 +6,7 @@ Acompanhamento das minhas natações com dados do Garmin: ritmo, SWOLF, braçada
 
 - **Painel**: evolução de ritmo, SWOLF, braçadas, volume e mistura de nados.
 - **Detalhe de cada natação** (`sessao.html?id=...`): tempo por piscina, colorido por nado, e a tabela de séries.
+- **Calendário** (`calendario.html`): treinos agendados no Garmin Connect e natações feitas; dá para agendar, mudar o dia ou tirar um treino (com um token do GitHub de permissão mínima, salvo só no navegador). O calendário da Garmin é a referência e é lido na sincronização diária.
 - **Treinos** (`treinos.html`): os treinos passo a passo, com tempo estimado e download do .fit.
 
 ## Como funciona

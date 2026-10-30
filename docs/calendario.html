@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="estilo.css">
 <style>
 .barra { display: flex; align-items: center; gap: 8px; margin: 16px 0 12px; flex-wrap: wrap; }
-.barra h2 { font-size: 18px; margin: 0 8px; min-width: 150px; text-transform: capitalize; }
+.barra h2 { font-size: 18px; margin: 0 8px; min-width: 150px; }
 .btn {
   border: 1px solid var(--border); background: var(--surface); color: var(--text);
   padding: 7px 14px; border-radius: 999px; font: inherit; font-size: 14px; cursor: pointer;
@@ -188,14 +188,16 @@ function itensDoDia(d) {
 }
 
 function render() {
-  $("mes").textContent = ref.toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
+  const nomeMes = ref.toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
+  $("mes").textContent = nomeMes[0].toUpperCase() + nomeMes.slice(1);
   const grade = $("grade"); grade.replaceChildren();
   for (const d of DIAS) { const c = document.createElement("div"); c.className = "cab"; c.textContent = d; grade.appendChild(c); }
   const ini = new Date(ref); ini.setDate(1 - ((ref.getDay() + 6) % 7));
   const agenda = $("agenda"); agenda.replaceChildren();
-  for (let i = 0; i < 42; i++) {
+  const fim = new Date(ref.getFullYear(), ref.getMonth() + 1, 0);
+  const total = Math.ceil(((ref.getDay() + 6) % 7 + fim.getDate()) / 7) * 7;
+  for (let i = 0; i < total; i++) {
     const dia = new Date(ini); dia.setDate(ini.getDate() + i);
-    if (i >= 35 && dia.getMonth() !== ref.getMonth()) break;
     const d = iso(dia), itens = itensDoDia(d);
     const cel = document.createElement("div");
     cel.className = "dia" + (dia.getMonth() !== ref.getMonth() ? " fora" : "") + (d === hojeISO ? " hoje" : "");
