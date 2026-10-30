@@ -1,1 +1,130 @@
-[]
+[
+ {
+  "data": "2026-08-27",
+  "nome": "Fins-Assisted Fly and Easy Freestyle",
+  "treino": null,
+  "agendamento_id": 1758336008,
+  "workout_id": 1678534132,
+  "esporte": "swimming"
+ },
+ {
+  "data": "2026-08-31",
+  "nome": "Endurance Challenge I",
+  "treino": null,
+  "agendamento_id": 1762736684,
+  "workout_id": 1682974718,
+  "esporte": "swimming"
+ },
+ {
+  "data": "2026-09-02",
+  "nome": "Fins-Assisted Fly and Freestyle Aerobic Set",
+  "treino": null,
+  "agendamento_id": 1764786852,
+  "workout_id": 1685067560,
+  "esporte": "swimming"
+ },
+ {
+  "data": "2026-09-08",
+  "nome": "Freestyle and Backstroke Aerobic Mix",
+  "treino": null,
+  "agendamento_id": 1771483192,
+  "workout_id": 1691874454,
+  "esporte": "swimming"
+ },
+ {
+  "data": "2026-09-12",
+  "nome": "Fins-Assisted Fly and Freestyle Technique",
+  "treino": null,
+  "agendamento_id": 1774499522,
+  "workout_id": 1694995591,
+  "esporte": "swimming"
+ },
+ {
+  "data": "2026-09-16",
+  "nome": "Endurance Builder Swim - Week 1",
+  "treino": null,
+  "agendamento_id": 1779467993,
+  "workout_id": 1700023646,
+  "esporte": "swimming"
+ },
+ {
+  "data": "2026-09-20",
+  "nome": "Breaststroke and Freestyle Aerobic Set",
+  "treino": null,
+  "agendamento_id": 1782576644,
+  "workout_id": 1703231391,
+  "esporte": "swimming"
+ },
+ {
+  "data": "2026-09-23",
+  "nome": "Freestyle Tempo Awareness with Backstroke",
+  "treino": null,
+  "agendamento_id": 1786785533,
+  "workout_id": 1707474991,
+  "esporte": "swimming"
+ },
+ {
+  "data": "2026-09-26",
+  "nome": "Fins-Assisted Fly and Easy Freestyle",
+  "treino": null,
+  "agendamento_id": 1789109762,
+  "workout_id": 1709877530,
+  "esporte": "swimming"
+ },
+ {
+  "data": "2026-09-30",
+  "nome": "Freestyle Aerobic Steady State",
+  "treino": null,
+  "agendamento_id": 1794235767,
+  "workout_id": 1715046131,
+  "esporte": "swimming"
+ },
+ {
+  "data": "2026-10-05",
+  "nome": "Endurance Builder Swim - Week 2",
+  "treino": null,
+  "agendamento_id": 1799692598,
+  "workout_id": 1720547518,
+  "esporte": "swimming"
+ },
+ {
+  "data": "2026-10-09",
+  "nome": "Glide Into Speed",
+  "treino": null,
+  "agendamento_id": 1803102664,
+  "workout_id": 1724029031,
+  "esporte": "swimming"
+ },
+ {
+  "data": "2026-10-16",
+  "nome": "Endurance Builder Freestyle - Week 1",
+  "treino": null,
+  "agendamento_id": 1810220496,
+  "workout_id": 1731188378,
+  "esporte": "swimming"
+ },
+ {
+  "data": "2026-10-19",
+  "nome": "Streamline and Stroke Length",
+  "treino": null,
+  "agendamento_id": 1814152414,
+  "workout_id": 1735117836,
+  "esporte": "swimming"
+ },
+ {
+  "data": "2026-10-28",
+  "nome": "Freestyle Tempo Introduction",
+  "treino": null,
+  "agendamento_id": 1823320692,
+  "workout_id": 1744337441,
+  "esporte": "swimming"
+ },
+ {
+  "data": "2026-10-30",
+  "nome": "Teste CSS 400+200",
+  "treino": "1-teste-css",
+  "agendamento_id": 1824300454,
+  "workout_id": 1745337405,
+  "esporte": "swimming"
+ }
+]
