@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calendário de Treinos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilo.css">
+<style>
+.barra { display: flex; align-items: center; gap: 8px; margin: 16px 0 12px; flex-wrap: wrap; }
+.barra h2 { font-size: 18px; margin: 0 8px; min-width: 150px; text-transform: capitalize; }
+.btn {
+  border: 1px solid var(--border); background: var(--surface); color: var(--text);
+  padding: 7px 14px; border-radius: 999px; font: inherit; font-size: 14px; cursor: pointer;
+}
+.btn.prim { background: var(--text); color: var(--surface); border-color: var(--text); }
+.btn.perigo { color: #c2410c; }
+.btn:disabled { opacity: .5; cursor: default; }
+.espaco { flex: 1; }
+.status { font-size: 13px; color: var(--text-2); }
+.grade { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.grade .cab { background: var(--surface); text-align: center; font-size: 12px; color: var(--muted); padding: 6px 0; font-weight: 500; }
+.dia { background: var(--surface); min-height: 104px; padding: 6px; display: flex; flex-direction: column; gap: 4px; }
+.dia.fora { background: var(--bg); }
+.dia.fora .num { color: var(--muted); }
+.dia .num { font-size: 12px; font-weight: 600; color: var(--text-2); }
+.dia.hoje .num { background: var(--s1); color: #fff; border-radius: 999px; width: 22px; height: 22px; display: grid; place-items: center; }
+.chip {
+  display: block; width: 100%; text-align: left; font: inherit; font-size: 12px; line-height: 1.3;
+  border-radius: 6px; padding: 4px 6px; cursor: pointer; border: 1px solid transparent; color: var(--text);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-decoration: none;
+}
+.chip.plano { background: var(--accent-wash); border-color: var(--s1); }
+.chip.plano.passado { opacity: .6; }
+.chip.feito { background: var(--grid); }
+.chip.pendente { border-style: dashed; opacity: .7; }
+.chip b { font-weight: 600; }
+.agenda { display: none; }
+.agenda .linha { display: grid; grid-template-columns: 64px 1fr; gap: 10px; padding: 10px 0; border-top: 1px solid var(--grid); }
+.agenda .linha:first-child { border-top: 0; }
+.agenda .d { font-size: 13px; color: var(--text-2); }
+.agenda .d b { display: block; font-size: 18px; color: var(--text); }
+.agenda .linha.hoje .d b { color: var(--s1); }
+.agenda .itens { display: flex; flex-direction: column; gap: 6px; }
+.agenda .chip { font-size: 14px; padding: 8px 10px; white-space: normal; }
+@media (max-width: 720px) { .grade { display: none; } .agenda { display: block; } }
+.leg { display: flex; gap: 14px; font-size: 12px; color: var(--muted); margin-top: 8px; flex-wrap: wrap; }
+.leg i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 5px; vertical-align: -2px; }
+dialog { border: 1px solid var(--border); border-radius: 14px; background: var(--surface); color: var(--text); padding: 20px; width: min(440px, calc(100vw - 32px)); }
+dialog::backdrop { background: rgba(0,0,0,.4); }
+dialog h3 { margin: 0 0 4px; font-size: 18px; }
+dialog p { color: var(--text-2); font-size: 14px; margin: 6px 0; }
+dialog label { display: block; font-size: 13px; color: var(--text-2); margin: 12px 0 4px; }
+dialog input, dialog select { width: 100%; font: inherit; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); }
+dialog .acoes { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; flex-wrap: wrap; }
+dialog ol { padding-left: 20px; font-size: 14px; color: var(--text-2); }
+.aviso { font-size: 13px; background: var(--accent-wash); border-radius: 8px; padding: 8px 10px; color: var(--text-2); }
+</style>
+</head>
+<body>
+<main>
+  <nav class="site-nav"><a href="./">Painel</a><a href="calendario.html" aria-current="page">Calendário</a><a href="treinos.html">Treinos</a></nav>
+  <header>
+    <h1>Calendário</h1>
+    <p id="resumo">Treinos agendados no Garmin Connect e natações feitas.</p>
+  </header>
+
+  <div class="barra">
+    <button class="btn" id="ant" aria-label="Mês anterior">‹</button>
+    <h2 id="mes"></h2>
+    <button class="btn" id="prox" aria-label="Próximo mês">›</button>
+    <button class="btn" id="hoje">Hoje</button>
+    <span class="espaco"></span>
+    <button class="btn" id="conectar">Conectar ao GitHub</button>
+    <button class="btn prim" id="novo">+ Agendar treino</button>
+  </div>
+  <p class="status" id="status" aria-live="polite"></p>
+
+  <section class="grade" id="grade"></section>
+  <section class="card agenda" id="agenda"></section>
+  <div class="leg">
+    <span><i style="background:var(--accent-wash);border:1px solid var(--s1)"></i>Treino agendado no Garmin</span>
+    <span><i style="background:var(--grid)"></i>Natação feita</span>
+  </div>
+
+  <footer>O calendário da Garmin é a referência: mudanças feitas no app Garmin Connect aparecem aqui na sincronização diária. Mudanças feitas aqui vão para a Garmin em cerca de 1 minuto e chegam ao relógio quando o celular sincronizar.</footer>
+</main>
+
+<dialog id="dlg-item">
+  <h3 id="item-nome"></h3>
+  <p id="item-info"></p>
+  <p><a id="item-link" href="#">Ver o treino passo a passo</a></p>
+  <label for="item-data">Mudar para o dia</label>
+  <input type="date" id="item-data">
+  <div class="acoes">
+    <button class="btn perigo" id="item-remover">Tirar do calendário</button>
+    <button class="btn" id="item-fechar">Fechar</button>
+    <button class="btn prim" id="item-mover">Mudar dia</button>
+  </div>
+</dialog>
+
+<dialog id="dlg-novo">
+  <h3>Agendar treino</h3>
+  <label for="novo-treino">Treino</label>
+  <select id="novo-treino"></select>
+  <label for="novo-data">Dia</label>
+  <input type="date" id="novo-data">
+  <div class="acoes">
+    <button class="btn" id="novo-fechar">Cancelar</button>
+    <button class="btn prim" id="novo-ok">Agendar</button>
+  </div>
+</dialog>
+
+<dialog id="dlg-token">
+  <h3>Conectar ao GitHub</h3>
+  <p>Para mudar o calendário daqui, a página precisa de um token do GitHub que só consegue disparar os fluxos deste repositório. Ele fica salvo só neste navegador.</p>
+  <ol>
+    <li>Abra <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → Fine-grained token</a>.</li>
+    <li>Em <em>Repository access</em>, escolha <em>Only select repositories</em> → <code>natacao</code>.</li>
+    <li>Em <em>Permissions</em>: <strong>Actions: Read and write</strong> e <strong>Contents: Read-only</strong>.</li>
+    <li>Gere, copie e cole abaixo.</li>
+  </ol>
+  <label for="token">Token</label>
+  <input type="password" id="token" autocomplete="off" placeholder="github_pat_…">
+  <p class="aviso">Não use um token com mais permissões que isso. Para revogar, apague-o nas configurações do GitHub.</p>
+  <div class="acoes">
+    <button class="btn perigo" id="token-sair">Desconectar</button>
+    <button class="btn" id="token-fechar">Fechar</button>
+    <button class="btn prim" id="token-ok">Salvar</button>
+  </div>
+</dialog>
+
+<script src="comum.js"></script>
+<script>
+const REPO = "fernandalpcosta/natacao";
+const DIAS = ["seg", "ter", "qua", "qui", "sex", "sáb", "dom"];
+const $ = id => document.getElementById(id);
+const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+const hojeISO = iso(new Date());
+
+let CAL = [], FEITAS = [], TREINOS = [], pendentes = [];
+let ref = new Date(); ref.setDate(1);
+let atual = null;
+
+const lerToken = () => { try { return localStorage.getItem("gh-token") || ""; } catch (e) { return ""; } };
+const gravarToken = t => { try { t ? localStorage.setItem("gh-token", t) : localStorage.removeItem("gh-token"); } catch (e) {} };
+const status = t => { $("status").textContent = t; };
+
+async function carregarCalendario() {
+  const tok = lerToken();
+  if (tok) {
+    // Direto do repositório: não espera o GitHub Pages republicar.
+    const r = await fetch(`https://api.github.com/repos/${REPO}/contents/docs/data/calendario.json?ref=main`, { headers: { Authorization: `Bearer ${tok}`, Accept: "application/vnd.github.raw+json" }, cache: "no-store" });
+    if (r.ok) return r.json();
+  }
+  const r = await fetch("data/calendario.json", { cache: "no-store" });
+  return r.ok ? r.json() : [];
+}
+
+function treinoDe(item) { return TREINOS.find(t => t.arquivo.replace(".fit", "") === item.treino); }
+
+function chipPlano(item) {
+  const t = treinoDe(item);
+  const a = document.createElement("button");
+  a.className = "chip plano" + (item.data < hojeISO ? " passado" : "") + (item.pendente ? " pendente" : "");
+  const b = document.createElement("b"); b.textContent = item.nome;
+  a.appendChild(b);
+  if (t) a.appendChild(document.createTextNode(` · ${(t.total_m / 1000).toFixed(1).replace(".", ",")} km`));
+  if (item.pendente) a.appendChild(document.createTextNode(" · enviando…"));
+  a.title = item.nome;
+  a.addEventListener("click", () => abrirItem(item));
+  return a;
+}
+
+function chipFeito(r) {
+  const a = document.createElement("a");
+  a.className = "chip feito"; a.href = `sessao.html?id=${r.id}`;
+  a.textContent = `✓ ${(r.distancia_m / 1000).toFixed(1).replace(".", ",")} km${r.tipo === "open_water_swimming" ? " mar" : ""}`;
+  a.title = r.treino || "Natação feita";
+  return a;
+}
+
+function itensDoDia(d) {
+  const plano = [...CAL, ...pendentes].filter(i => i.data === d);
+  const feitas = FEITAS.filter(r => r.data === d);
+  return [...plano.map(chipPlano), ...feitas.map(chipFeito)];
+}
+
+function render() {
+  $("mes").textContent = ref.toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
+  const grade = $("grade"); grade.replaceChildren();
+  for (const d of DIAS) { const c = document.createElement("div"); c.className = "cab"; c.textContent = d; grade.appendChild(c); }
+  const ini = new Date(ref); ini.setDate(1 - ((ref.getDay() + 6) % 7));
+  const agenda = $("agenda"); agenda.replaceChildren();
+  for (let i = 0; i < 42; i++) {
+    const dia = new Date(ini); dia.setDate(ini.getDate() + i);
+    if (i >= 35 && dia.getMonth() !== ref.getMonth()) break;
+    const d = iso(dia), itens = itensDoDia(d);
+    const cel = document.createElement("div");
+    cel.className = "dia" + (dia.getMonth() !== ref.getMonth() ? " fora" : "") + (d === hojeISO ? " hoje" : "");
+    const n = document.createElement("span"); n.className = "num"; n.textContent = dia.getDate(); cel.appendChild(n);
+    itens.forEach(x => cel.appendChild(x));
+    grade.appendChild(cel);
+    // Agenda (celular): só dias do mês com algo, e hoje.
+    if (dia.getMonth() === ref.getMonth() && (itens.length || d === hojeISO)) {
+      const l = document.createElement("div"); l.className = "linha" + (d === hojeISO ? " hoje" : "");
+      const dd = document.createElement("div"); dd.className = "d";
+      const b = document.createElement("b"); b.textContent = dia.getDate();
+      dd.append(b, document.createTextNode(DIAS[(dia.getDay() + 6) % 7]));
+      const it = document.createElement("div"); it.className = "itens";
+      if (itens.length) itensDoDia(d).forEach(x => it.appendChild(x)); else it.textContent = "Hoje, nada agendado";
+      l.append(dd, it); agenda.appendChild(l);
+    }
+  }
+  if (!agenda.children.length) agenda.textContent = "Nada neste mês.";
+  $("conectar").textContent = lerToken() ? "GitHub conectado" : "Conectar ao GitHub";
+}
+
+function abrirItem(item) {
+  atual = item;
+  $("item-nome").textContent = item.nome;
+  const t = treinoDe(item);
+  $("item-info").textContent = `${new Date(item.data + "T12:00").toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long" })}${t ? ` · ${t.total_m.toLocaleString("pt-BR")} m` : ""}`;
+  $("item-link").href = t ? `treinos.html#${item.treino}` : "https://connect.garmin.com/modern/calendar";
+  $("item-link").textContent = t ? "Ver o treino passo a passo" : "Abrir no Garmin Connect";
+  $("item-data").value = item.data;
+  const pode = !item.pendente && item.agendamento_id;
+  $("item-mover").disabled = $("item-remover").disabled = !pode;
+  $("dlg-item").showModal();
+}
+
+async function disparar(inputs, descricao) {
+  const tok = lerToken();
+  if (!tok) {
+    status(`Para ${descricao}, conecte ao GitHub primeiro (botão "Conectar ao GitHub"), ou use Actions → Calendario de treinos no GitHub.`);
+    $("dlg-token").showModal();
+    return false;
+  }
+  const r = await fetch(`https://api.github.com/repos/${REPO}/actions/workflows/calendario.yml/dispatches`, {
+    method: "POST", headers: { Authorization: `Bearer ${tok}`, Accept: "application/vnd.github+json" },
+    body: JSON.stringify({ ref: "main", inputs }),
+  });
+  if (r.status !== 204) { status(`O GitHub recusou o pedido (HTTP ${r.status}). Confira o token e as permissões.`); return false; }
+  status(`Pedido enviado: ${descricao}. A Garmin atualiza em cerca de 1 minuto…`);
+  esperarMudanca();
+  return true;
+}
+
+async function esperarMudanca() {
+  const antes = JSON.stringify(CAL);
+  for (let i = 0; i < 24; i++) {
+    await new Promise(r => setTimeout(r, 10000));
+    const novo = await carregarCalendario().catch(() => null);
+    if (novo && JSON.stringify(novo) !== antes) {
+      CAL = novo; pendentes = []; render();
+      status("Calendário atualizado na Garmin. O relógio recebe na próxima sincronização do celular.");
+      return;
+    }
+  }
+  status("Ainda não atualizou. Veja em Actions → Calendario de treinos no GitHub se houve erro.");
+}
+
+$("item-mover").addEventListener("click", async () => {
+  const nova = $("item-data").value;
+  if (!nova || nova === atual.data) return;
+  $("dlg-item").close();
+  if (await disparar({ acao: "mover", agendamento_id: String(atual.agendamento_id), data: nova }, `mover ${atual.nome} para ${dataBR(nova)}`)) {
+    CAL = CAL.filter(i => i !== atual); pendentes.push({ ...atual, data: nova, pendente: true }); render();
+  }
+});
+$("item-remover").addEventListener("click", async () => {
+  if (!confirm(`Tirar "${atual.nome}" do calendário da Garmin? O treino continua na sua biblioteca.`)) return;
+  $("dlg-item").close();
+  if (await disparar({ acao: "remover", agendamento_id: String(atual.agendamento_id) }, `tirar ${atual.nome} do calendário`)) {
+    CAL = CAL.filter(i => i !== atual); render();
+  }
+});
+$("item-fechar").addEventListener("click", () => $("dlg-item").close());
+
+$("novo").addEventListener("click", () => { $("novo-data").value = hojeISO; $("dlg-novo").showModal(); });
+$("novo-fechar").addEventListener("click", () => $("dlg-novo").close());
+$("novo-ok").addEventListener("click", async () => {
+  const stem = $("novo-treino").value, data = $("novo-data").value;
+  if (!stem || !data) return;
+  $("dlg-novo").close();
+  const t = TREINOS.find(x => x.arquivo === stem + ".fit");
+  if (await disparar({ acao: "agendar", treino: stem, data }, `agendar ${t.nome} em ${dataBR(data)}`)) {
+    pendentes.push({ data, nome: t.nome, treino: stem, pendente: true }); render();
+  }
+});
+
+$("conectar").addEventListener("click", () => { $("token").value = ""; $("dlg-token").showModal(); });
+$("token-fechar").addEventListener("click", () => $("dlg-token").close());
+$("token-sair").addEventListener("click", () => { gravarToken(""); $("dlg-token").close(); render(); status("Desconectado. O token foi apagado deste navegador."); });
+$("token-ok").addEventListener("click", async () => {
+  const t = $("token").value.trim(); if (!t) return;
+  const r = await fetch(`https://api.github.com/repos/${REPO}/actions/workflows/calendario.yml`, { headers: { Authorization: `Bearer ${t}` } });
+  if (!r.ok) { status(`Esse token não acessa o repositório (HTTP ${r.status}).`); return; }
+  gravarToken(t); $("dlg-token").close(); render(); status("GitHub conectado. Agora dá para mudar o calendário por aqui.");
+});
+
+$("ant").addEventListener("click", () => { ref.setMonth(ref.getMonth() - 1); render(); });
+$("prox").addEventListener("click", () => { ref.setMonth(ref.getMonth() + 1); render(); });
+$("hoje").addEventListener("click", () => { ref = new Date(); ref.setDate(1); render(); });
+
+Promise.all([carregarCalendario(), fetch("data/metricas.json").then(r => r.json()), fetch("treinos/index.json").then(r => r.json())]).then(([cal, met, tr]) => {
+  CAL = cal; FEITAS = met; TREINOS = tr;
+  const sel = $("novo-treino");
+  for (const t of TREINOS) { const o = document.createElement("option"); o.value = t.arquivo.replace(".fit", ""); o.textContent = `${t.nome} · ${t.total_m.toLocaleString("pt-BR")} m`; sel.appendChild(o); }
+  const prox = CAL.filter(i => i.data >= hojeISO);
+  $("resumo").textContent = prox.length ? `Próximo treino: ${prox[0].nome}, ${dataBR(prox[0].data)}.` : "Nenhum treino agendado daqui para frente.";
+  render();
+});
+</script>
+</body>
+</html>

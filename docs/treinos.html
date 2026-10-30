@@ -35,7 +35,7 @@
 </head>
 <body>
 <main>
-  <nav class="site-nav"><a href="./">Painel</a><a href="treinos.html" aria-current="page">Treinos</a></nav>
+  <nav class="site-nav"><a href="./">Painel</a><a href="calendario.html">Calendário</a><a href="treinos.html" aria-current="page">Treinos</a></nav>
   <header>
     <h1>Treinos</h1>
     <p id="resumo">Carregando…</p>
@@ -93,6 +93,7 @@ function passo(b) {
 
 function cartao(t, ritmo) {
   const c = node("article", "card");
+  c.id = t.arquivo.replace(".fit", "");
   const head = node("div", "treino-head");
   const tit = node("div");
   tit.append(node("h2", null, t.nome), node("div", "meta", `${t.total_m.toLocaleString("pt-BR")} m · ≈ ${Math.round(duracao(t.blocos, ritmo) / 60)} min · piscina de ${t.piscina_m || 25} m`));
@@ -139,6 +140,7 @@ Promise.all([fetch("treinos/index.json").then(r => r.json()), fetch("data/metric
   document.getElementById("resumo").textContent = `${treinos.length} treinos · estimativas com ritmo típico de ${mmss(ritmo)}/100 m`;
   const lista = document.getElementById("lista");
   treinos.forEach(t => lista.appendChild(cartao(t, ritmo)));
+  if (location.hash) document.querySelector(location.hash)?.scrollIntoView();
 });
 </script>
 </body>
