@@ -142,5 +142,13 @@
   "agendamento_id": 1824678456,
   "workout_id": 1745712713,
   "esporte": "swimming"
+ },
+ {
+  "data": "2026-11-06",
+  "nome": "S1 C Continuo AA",
+  "treino": "s1-c-continuo",
+  "agendamento_id": 1824678742,
+  "workout_id": 1745712777,
+  "esporte": "swimming"
  }
 ]
