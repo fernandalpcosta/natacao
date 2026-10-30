@@ -126,5 +126,13 @@
   "agendamento_id": 1824300454,
   "workout_id": 1745337405,
   "esporte": "swimming"
+ },
+ {
+  "data": "2026-11-02",
+  "nome": "S1 A Teste CSS",
+  "treino": "s1-a-teste-css",
+  "agendamento_id": 1824678238,
+  "workout_id": 1745712677,
+  "esporte": "swimming"
  }
 ]
