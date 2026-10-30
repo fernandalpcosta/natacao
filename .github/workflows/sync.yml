@@ -20,10 +20,16 @@ jobs:
       - run: python sync/sync.py
         env:
           GARMIN_PERSONAL_API_KEY: ${{ secrets.GARMIN_PERSONAL_API_KEY }}
+      - name: Atualizar calendário da Garmin
+        continue-on-error: true
+        run: python sync/calendario.py exportar
+        env:
+          GARMIN_EMAIL: ${{ secrets.GARMIN_EMAIL }}
+          GARMIN_PASSWORD: ${{ secrets.GARMIN_PASSWORD }}
       - name: Gravar dados novos
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/data
           git diff --cached --quiet || git commit -m "Sincroniza natações $(date -u +%F)"
-          git push
+          git pull --rebase -q origin main && git push

@@ -1,0 +1,62 @@
+name: Calendario de treinos
+
+on:
+  workflow_dispatch:
+    inputs:
+      acao:
+        description: "agendar, mover, remover ou exportar"
+        type: choice
+        options: [exportar, agendar, mover, remover]
+      treino:
+        description: "Para agendar: nome do arquivo em treinos/, sem .json"
+        required: false
+        default: ""
+      data:
+        description: "Para agendar ou mover: AAAA-MM-DD"
+        required: false
+        default: ""
+      agendamento_id:
+        description: "Para mover ou remover: id do agendamento (aparece no site)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: calendario
+  cancel-in-progress: false
+
+jobs:
+  calendario:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Alterar calendário na Garmin
+        env:
+          GARMIN_EMAIL: ${{ secrets.GARMIN_EMAIL }}
+          GARMIN_PASSWORD: ${{ secrets.GARMIN_PASSWORD }}
+          ACAO: ${{ inputs.acao }}
+          TREINO: ${{ inputs.treino }}
+          DATA: ${{ inputs.data }}
+          AGENDAMENTO: ${{ inputs.agendamento_id }}
+        run: |
+          case "$ACAO" in
+            agendar) python sync/calendario.py agendar "$TREINO" "$DATA" ;;
+            mover)   python sync/calendario.py mover "$AGENDAMENTO" "$DATA" ;;
+            remover) python sync/calendario.py remover "$AGENDAMENTO" ;;
+            *)       python sync/calendario.py exportar ;;
+          esac
+      - name: Gravar calendário
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/data/calendario.json
+          git diff --cached --quiet || git commit -m "Calendário: $ACAO" 
+          git pull --rebase -q origin main && git push
+        env:
+          ACAO: ${{ inputs.acao }}
