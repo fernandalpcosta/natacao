@@ -1,0 +1,16 @@
+{
+  "nome": "S1 B Frequencia",
+  "objetivo": "Semana 1, treino B (qua ou qui). Sua braçada é longa, mas a frequência é baixa (cerca de 24 ciclos por minuto), e foi por aí que a velocidade caiu. Aqui você sobe a frequência sem perder a pegada.",
+  "piscina_m": 25,
+  "blocos": [
+    {"tipo": "aquecimento", "m": 300, "nado": "crawl", "nota": "Solto"},
+    {"tipo": "aquecimento", "m": 100, "nado": "costas", "descanso_s": 20},
+    {"tipo": "aquecimento", "m": 50, "nado": "educativo", "repetir": 4, "descanso_s": 20, "nota": "Pegada com punho fechado nos primeiros 25, mão aberta na volta"},
+    {"m": 50, "nado": "crawl", "repetir": 8, "descanso_s": 20, "nota": "Escada de frequência: em cada 50 braçada um pouco mais rápida. Mantenha 13 braçadas ou menos por piscina"},
+    {"m": 25, "nado": "crawl", "repetir": 12, "descanso_s": 35, "nota": "FORTE: braço rápido, sem encurtar a braçada. Conte as braçadas"},
+    {"m": 200, "nado": "crawl", "equip": "pullbuoy", "descanso_s": 30, "nota": "Solto com pull buoy"},
+    {"m": 100, "nado": "crawl", "repetir": 4, "descanso_s": 20, "nota": "Ritmo firme (cerca de 2:00/100 m), respiração a cada 3 e olhar à frente a cada 8 braçadas"},
+    {"m": 50, "nado": "crawl", "repetir": 4, "descanso_s": 30, "nota": "Últimos 15 m em sprint, como numa chegada de prova"},
+    {"tipo": "desaquecimento", "m": 200, "nado": "livre", "nota": "Bem solto"}
+  ]
+}

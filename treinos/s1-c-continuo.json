@@ -1,0 +1,13 @@
+{
+  "nome": "S1 C Continuo AA",
+  "objetivo": "Semana 1, treino C (sex ou sáb). Resistência contínua como numa travessia: nadar sem parar, olhar à frente e virar sem empurrar a parede, simulando as boias.",
+  "piscina_m": 25,
+  "blocos": [
+    {"tipo": "aquecimento", "m": 400, "nado": "crawl", "nota": "Solto, braçada longa"},
+    {"tipo": "aquecimento", "m": 50, "nado": "educativo", "repetir": 4, "descanso_s": 15, "nota": "Educativo à escolha"},
+    {"m": 800, "nado": "crawl", "descanso_s": 60, "nota": "Contínuo confortável (cerca de 2:06/100 m). Respiração bilateral, a cada 3 braçadas"},
+    {"m": 800, "nado": "crawl", "descanso_s": 60, "nota": "Contínuo. Olhe à frente a cada 6 braçadas, como se procurasse a boia"},
+    {"m": 800, "nado": "crawl", "descanso_s": 60, "nota": "Contínuo. Nas viradas, toque a parede com a mão e volte sem empurrar, como numa boia. Últimos 200 m mais forte"},
+    {"tipo": "desaquecimento", "m": 200, "nado": "livre", "nota": "Bem solto"}
+  ]
+}

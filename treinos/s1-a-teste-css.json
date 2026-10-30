@@ -1,0 +1,17 @@
+{
+  "nome": "S1 A Teste CSS",
+  "objetivo": "Semana 1, treino A (seg ou ter). Medir seu ritmo de limiar (CSS) para calibrar todos os próximos treinos, e começar a técnica de águas abertas.",
+  "piscina_m": 25,
+  "blocos": [
+    {"tipo": "aquecimento", "m": 400, "nado": "crawl", "nota": "Solto. Respiração a cada 3 braçadas"},
+    {"tipo": "aquecimento", "m": 50, "nado": "crawl", "repetir": 4, "descanso_s": 20, "nota": "Progressivo: cada 50 um pouco mais rápido"},
+    {"tipo": "aquecimento", "m": 50, "nado": "educativo", "repetir": 4, "descanso_s": 20, "nota": "Toque no ombro ou braço estendido. Pegada alta, cotovelo acima da mão"},
+    {"tipo": "aquecimento", "m": 100, "nado": "livre", "descanso_s": 60, "nota": "Bem solto antes do teste"},
+    {"m": 400, "nado": "crawl", "nota": "TESTE 400: o mais rápido que conseguir manter até o fim. Saída na água, sem mergulho. Anote o tempo."},
+    {"descanso_s": 300},
+    {"m": 200, "nado": "crawl", "nota": "TESTE 200: o mais rápido possível. Anote o tempo. CSS = (T400 - T200) / 2 por 100 m"},
+    {"descanso_s": 120},
+    {"m": 50, "nado": "crawl", "repetir": 6, "descanso_s": 20, "nota": "Olho de crocodilo: olhe para frente a cada 6 braçadas, só os olhos fora d'água, e respire de lado em seguida"},
+    {"tipo": "desaquecimento", "m": 200, "nado": "livre", "nota": "Bem solto, misture nados"}
+  ]
+}

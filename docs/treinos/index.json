@@ -183,5 +183,189 @@
   ],
   "arquivo": "3-limiar.fit",
   "total_m": 2100
+ },
+ {
+  "nome": "S1 A Teste CSS",
+  "objetivo": "Semana 1, treino A (seg ou ter). Medir seu ritmo de limiar (CSS) para calibrar todos os próximos treinos, e começar a técnica de águas abertas.",
+  "piscina_m": 25,
+  "blocos": [
+   {
+    "tipo": "aquecimento",
+    "m": 400,
+    "nado": "crawl",
+    "nota": "Solto. Respiração a cada 3 braçadas"
+   },
+   {
+    "tipo": "aquecimento",
+    "m": 50,
+    "nado": "crawl",
+    "repetir": 4,
+    "descanso_s": 20,
+    "nota": "Progressivo: cada 50 um pouco mais rápido"
+   },
+   {
+    "tipo": "aquecimento",
+    "m": 50,
+    "nado": "educativo",
+    "repetir": 4,
+    "descanso_s": 20,
+    "nota": "Toque no ombro ou braço estendido. Pegada alta, cotovelo acima da mão"
+   },
+   {
+    "tipo": "aquecimento",
+    "m": 100,
+    "nado": "livre",
+    "descanso_s": 60,
+    "nota": "Bem solto antes do teste"
+   },
+   {
+    "m": 400,
+    "nado": "crawl",
+    "nota": "TESTE 400: o mais rápido que conseguir manter até o fim. Saída na água, sem mergulho. Anote o tempo."
+   },
+   {
+    "descanso_s": 300
+   },
+   {
+    "m": 200,
+    "nado": "crawl",
+    "nota": "TESTE 200: o mais rápido possível. Anote o tempo. CSS = (T400 - T200) / 2 por 100 m"
+   },
+   {
+    "descanso_s": 120
+   },
+   {
+    "m": 50,
+    "nado": "crawl",
+    "repetir": 6,
+    "descanso_s": 20,
+    "nota": "Olho de crocodilo: olhe para frente a cada 6 braçadas, só os olhos fora d'água, e respire de lado em seguida"
+   },
+   {
+    "tipo": "desaquecimento",
+    "m": 200,
+    "nado": "livre",
+    "nota": "Bem solto, misture nados"
+   }
+  ],
+  "arquivo": "s1-a-teste-css.fit",
+  "total_m": 2000
+ },
+ {
+  "nome": "S1 B Frequencia",
+  "objetivo": "Semana 1, treino B (qua ou qui). Sua braçada é longa, mas a frequência é baixa (cerca de 24 ciclos por minuto), e foi por aí que a velocidade caiu. Aqui você sobe a frequência sem perder a pegada.",
+  "piscina_m": 25,
+  "blocos": [
+   {
+    "tipo": "aquecimento",
+    "m": 300,
+    "nado": "crawl",
+    "nota": "Solto"
+   },
+   {
+    "tipo": "aquecimento",
+    "m": 100,
+    "nado": "costas",
+    "descanso_s": 20
+   },
+   {
+    "tipo": "aquecimento",
+    "m": 50,
+    "nado": "educativo",
+    "repetir": 4,
+    "descanso_s": 20,
+    "nota": "Pegada com punho fechado nos primeiros 25, mão aberta na volta"
+   },
+   {
+    "m": 50,
+    "nado": "crawl",
+    "repetir": 8,
+    "descanso_s": 20,
+    "nota": "Escada de frequência: em cada 50 braçada um pouco mais rápida. Mantenha 13 braçadas ou menos por piscina"
+   },
+   {
+    "m": 25,
+    "nado": "crawl",
+    "repetir": 12,
+    "descanso_s": 35,
+    "nota": "FORTE: braço rápido, sem encurtar a braçada. Conte as braçadas"
+   },
+   {
+    "m": 200,
+    "nado": "crawl",
+    "equip": "pullbuoy",
+    "descanso_s": 30,
+    "nota": "Solto com pull buoy"
+   },
+   {
+    "m": 100,
+    "nado": "crawl",
+    "repetir": 4,
+    "descanso_s": 20,
+    "nota": "Ritmo firme (cerca de 2:00/100 m), respiração a cada 3 e olhar à frente a cada 8 braçadas"
+   },
+   {
+    "m": 50,
+    "nado": "crawl",
+    "repetir": 4,
+    "descanso_s": 30,
+    "nota": "Últimos 15 m em sprint, como numa chegada de prova"
+   },
+   {
+    "tipo": "desaquecimento",
+    "m": 200,
+    "nado": "livre",
+    "nota": "Bem solto"
+   }
+  ],
+  "arquivo": "s1-b-frequencia.fit",
+  "total_m": 2300
+ },
+ {
+  "nome": "S1 C Continuo AA",
+  "objetivo": "Semana 1, treino C (sex ou sáb). Resistência contínua como numa travessia: nadar sem parar, olhar à frente e virar sem empurrar a parede, simulando as boias.",
+  "piscina_m": 25,
+  "blocos": [
+   {
+    "tipo": "aquecimento",
+    "m": 400,
+    "nado": "crawl",
+    "nota": "Solto, braçada longa"
+   },
+   {
+    "tipo": "aquecimento",
+    "m": 50,
+    "nado": "educativo",
+    "repetir": 4,
+    "descanso_s": 15,
+    "nota": "Educativo à escolha"
+   },
+   {
+    "m": 800,
+    "nado": "crawl",
+    "descanso_s": 60,
+    "nota": "Contínuo confortável (cerca de 2:06/100 m). Respiração bilateral, a cada 3 braçadas"
+   },
+   {
+    "m": 800,
+    "nado": "crawl",
+    "descanso_s": 60,
+    "nota": "Contínuo. Olhe à frente a cada 6 braçadas, como se procurasse a boia"
+   },
+   {
+    "m": 800,
+    "nado": "crawl",
+    "descanso_s": 60,
+    "nota": "Contínuo. Nas viradas, toque a parede com a mão e volte sem empurrar, como numa boia. Últimos 200 m mais forte"
+   },
+   {
+    "tipo": "desaquecimento",
+    "m": 200,
+    "nado": "livre",
+    "nota": "Bem solto"
+   }
+  ],
+  "arquivo": "s1-c-continuo.fit",
+  "total_m": 3200
  }
 ]
