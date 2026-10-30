@@ -134,5 +134,13 @@
   "agendamento_id": 1824678238,
   "workout_id": 1745712677,
   "esporte": "swimming"
+ },
+ {
+  "data": "2026-11-04",
+  "nome": "S1 B Frequencia",
+  "treino": "s1-b-frequencia",
+  "agendamento_id": 1824678456,
+  "workout_id": 1745712713,
+  "esporte": "swimming"
  }
 ]
