@@ -49,8 +49,6 @@ def itens(g, meses=(-1, 0, 1, 2)):
 def exportar(g):
     nomes = nossos_treinos()
     lista = itens(g)
-    if lista:
-        print("::notice::campos de um item do calendário Garmin: " + ", ".join(sorted(lista[0].keys())))
     saida = []
     for it in lista:
         nome = (it.get("title") or it.get("workoutName") or "").strip()
